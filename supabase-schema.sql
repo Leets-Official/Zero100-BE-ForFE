@@ -14,6 +14,7 @@ CREATE TABLE users (
 CREATE TABLE inquiries (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
   name TEXT NOT NULL,
   email TEXT NOT NULL,
   content TEXT NOT NULL,

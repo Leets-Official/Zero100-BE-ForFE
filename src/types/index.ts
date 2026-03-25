@@ -8,6 +8,7 @@ export interface User {
 export interface Inquiry {
   id: string;
   user_id: string;
+  title: string;
   name: string;
   email: string;
   content: string;

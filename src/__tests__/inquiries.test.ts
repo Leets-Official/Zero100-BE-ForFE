@@ -27,7 +27,7 @@ describe("문의 목록 조회 API", () => {
 describe("문의 등록 API", () => {
   it("토큰 없이 요청 시 401 반환", async () => {
     const res = await POST(
-      createRequest("POST", { name: "test", email: "t@t.com", content: "hi" })
+      createRequest("POST", { title: "제목", name: "test", email: "t@t.com", content: "hi" })
     );
     expect(res.status).toBe(401);
   });

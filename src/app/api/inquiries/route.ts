@@ -49,11 +49,18 @@ export const POST = async (req: NextRequest) => {
   }
 
   try {
-    const { name, email, content } = await req.json();
+    const { title, name, email, content } = await req.json();
 
-    if (!name || !email || !content) {
+    if (!title || !name || !email || !content) {
       return NextResponse.json(
-        { error: "성함, 이메일, 내용은 필수입니다" },
+        { error: "제목, 성함, 이메일, 내용은 필수입니다" },
+        { status: 400 }
+      );
+    }
+
+    if (title.trim().length < 2 || title.trim().length > 50) {
+      return NextResponse.json(
+        { error: "제목은 2자 이상 50자 이하여야 합니다" },
         { status: 400 }
       );
     }
@@ -77,6 +84,7 @@ export const POST = async (req: NextRequest) => {
       .from("inquiries")
       .insert({
         user_id: payload.userId,
+        title: title.trim(),
         name: name.trim(),
         email,
         content,

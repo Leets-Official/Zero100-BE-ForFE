@@ -435,8 +435,9 @@ const swaggerSpec = {
             "application/json": {
               schema: {
                 type: "object",
-                required: ["name", "email", "content"],
+                required: ["title", "name", "email", "content"],
                 properties: {
+                  title: { type: "string", example: "API 관련 문의", description: "2~50자" },
                   name: { type: "string", example: "홍길동", description: "2~20자" },
                   email: { type: "string", example: "test@example.com" },
                   content: { type: "string", example: "문의 내용입니다." },
@@ -465,7 +466,8 @@ const swaggerSpec = {
               "application/json": {
                 schema: { $ref: "#/components/schemas/Error" },
                 examples: {
-                  missing: { value: { error: "성함, 이메일, 내용은 필수입니다" } },
+                  missing: { value: { error: "제목, 성함, 이메일, 내용은 필수입니다" } },
+                  title: { value: { error: "제목은 2자 이상 50자 이하여야 합니다" } },
                   name: { value: { error: "성함은 2자 이상 20자 이하여야 합니다" } },
                   email: { value: { error: "올바른 이메일 형식이 아닙니다" } },
                 },
@@ -577,6 +579,7 @@ const swaggerSpec = {
         properties: {
           id: { type: "string", format: "uuid", example: "226cb342-1d60-4044-b3fe-0cf2543101c7" },
           user_id: { type: "string", format: "uuid", example: "936ded5f-63c3-425e-8921-c44e79d526b8" },
+          title: { type: "string", example: "API 관련 문의" },
           name: { type: "string", example: "홍길동" },
           email: { type: "string", example: "test@example.com" },
           content: { type: "string", example: "문의 내용입니다." },
