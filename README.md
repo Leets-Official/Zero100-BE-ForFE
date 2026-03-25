@@ -1,4 +1,4 @@
-# 5th-FE-Mission-ZERO100
+# 7th-FE-Mission-ZERO100
 
 ## 🎯 미션 요구사항
 
