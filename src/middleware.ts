@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 const ALLOWED_ORIGINS = [
   "http://localhost:3000",
   "http://localhost:5173",
+  "http://leetszero100-fe.kro.kr",
+  "https://leetszero100-fe.kro.kr",
 ];
 
 const getCorsHeaders = (origin: string | null) => {

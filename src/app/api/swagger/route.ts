@@ -7,7 +7,7 @@ const swaggerSpec = {
     version: "1.0.0",
     description: "Leets ZERO100 관리자 대시보드 백엔드 API",
   },
-  servers: [{ url: "http://localhost:3000", description: "Local" }],
+  servers: [{ url: "http://leetszero100-fe.kro.kr", description: "Production" }],
   paths: {
     "/api/auth/signup": {
       post: {
