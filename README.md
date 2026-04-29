@@ -14,7 +14,7 @@
 
 ## 🎨 Dashboard UI 요구사항
 
-Figma : https://www.figma.com/design/5udme3sBNisPIOyu57QfmD/Zero100-%EB%94%94%EC%9E%90%EC%9D%B8?node-id=0-1&t=4PEjufFhaFhwuR7H-1
+Figma : https://www.figma.com/design/4hyz65a9mwAkEKplbXcfyo/%EA%B0%9C%EB%B0%9C-%EA%B5%90%EC%9C%A1%EC%9A%A9-ui?node-id=1262-5365&t=881nSuXu4hYeEmnJ-1
 
 ## 💡 공통 요구사항
 
