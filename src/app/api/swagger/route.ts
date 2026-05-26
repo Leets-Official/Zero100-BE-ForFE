@@ -7,7 +7,6 @@ const swaggerSpec = {
     version: "1.0.0",
     description: "Leets ZERO100 관리자 대시보드 백엔드 API",
   },
-  servers: [{ url: "http://leetszero100-fe.kro.kr", description: "Production" }],
   paths: {
     "/api/auth/signup": {
       post: {
@@ -19,11 +18,11 @@ const swaggerSpec = {
             "application/json": {
               schema: {
                 type: "object",
-                required: ["email", "password", "name"],
+                required: ["email", "password"],
                 properties: {
                   email: { type: "string", example: "test@example.com" },
                   password: { type: "string", example: "Test1234!", description: "8자 이상, 영문+숫자+특수문자" },
-                  name: { type: "string", example: "홍길동", description: "2~8자" },
+                  name: { type: "string", example: "홍길동", description: "2~8자 (옵셔널)" },
                   kakaoId: { type: "string", example: "4813745811", description: "카카오 로그인으로 가입 시에만" },
                 },
               },
@@ -58,7 +57,7 @@ const swaggerSpec = {
               "application/json": {
                 schema: { $ref: "#/components/schemas/Error" },
                 examples: {
-                  missing: { value: { error: "이메일, 비밀번호, 이름은 필수입니다" } },
+                  missing: { value: { error: "이메일과 비밀번호는 필수입니다" } },
                   email: { value: { error: "올바른 이메일 형식이 아닙니다" } },
                   passwordLength: { value: { error: "비밀번호는 8자 이상이어야 합니다" } },
                   passwordCombo: { value: { error: "비밀번호는 영문, 숫자, 특수문자를 포함해야 합니다" } },
@@ -68,11 +67,14 @@ const swaggerSpec = {
             },
           },
           "409": {
-            description: "이미 가입된 이메일",
+            description: "이미 가입된 계정",
             content: {
               "application/json": {
                 schema: { $ref: "#/components/schemas/Error" },
-                example: { error: "이미 가입된 이메일입니다" },
+                examples: {
+                  email: { value: { error: "이미 가입된 이메일입니다" } },
+                  kakao: { value: { error: "이미 가입된 카카오 계정입니다" } },
+                },
               },
             },
           },
