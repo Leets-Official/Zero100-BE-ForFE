@@ -81,7 +81,6 @@ export const POST = async (req: NextRequest) => {
       .single();
 
     if (error) {
-      console.error("회원가입 실패:", error);
       return NextResponse.json(
         { error: "회원가입에 실패했습니다" },
         { status: 500 }
