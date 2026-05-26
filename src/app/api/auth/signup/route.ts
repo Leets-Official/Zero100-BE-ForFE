@@ -7,9 +7,9 @@ export const POST = async (req: NextRequest) => {
   try {
     const { email, password, name, kakaoId } = await req.json();
 
-    if (!email || !password || !name) {
+    if (!email || !password) {
       return NextResponse.json(
-        { error: "이메일, 비밀번호, 이름은 필수입니다" },
+        { error: "이메일과 비밀번호는 필수입니다" },
         { status: 400 }
       );
     }
@@ -37,7 +37,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    if (name.trim().length < 2 || name.trim().length > 8) {
+    if (name && (name.trim().length < 2 || name.trim().length > 8)) {
       return NextResponse.json(
         { error: "이름은 2자 이상 8자 이하여야 합니다" },
         { status: 400 }
@@ -57,15 +57,31 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
+    if (kakaoId) {
+      const { data: existingKakaoUser } = await supabase()
+        .from("users")
+        .select("id")
+        .eq("kakao_id", kakaoId)
+        .single();
+
+      if (existingKakaoUser) {
+        return NextResponse.json(
+          { error: "이미 가입된 카카오 계정입니다" },
+          { status: 409 }
+        );
+      }
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const { data, error } = await supabase()
       .from("users")
-      .insert({ email, password: hashedPassword, name: name.trim(), ...(kakaoId && { kakao_id: kakaoId }) })
+      .insert({ email, password: hashedPassword, name: name?.trim() ?? "", ...(kakaoId && { kakao_id: kakaoId }) })
       .select("id, email, name, created_at")
       .single();
 
     if (error) {
+      console.error("회원가입 실패:", error);
       return NextResponse.json(
         { error: "회원가입에 실패했습니다" },
         { status: 500 }
