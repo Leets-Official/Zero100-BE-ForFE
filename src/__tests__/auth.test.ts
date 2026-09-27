@@ -22,7 +22,7 @@ describe("회원가입 API", () => {
     const res = await signup(createRequest("POST", { email: "test@test.com" }));
     expect(res.status).toBe(400);
     const data = await res.json();
-    expect(data.error).toBe("이메일, 비밀번호, 이름은 필수입니다");
+    expect(data.error).toBe("이메일과 비밀번호는 필수입니다");
   });
 
   it("잘못된 이메일 형식 시 400 반환", async () => {
