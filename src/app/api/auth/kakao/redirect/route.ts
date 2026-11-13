@@ -6,7 +6,7 @@ interface KakaoUserResponse {
   id: number;
 }
 
-const getKakaoToken = async (code: string): Promise<string> => {
+const getKakaoToken = async (code: string, redirectUri: string): Promise<string> => {
   const res = await fetch("https://kauth.kakao.com/oauth/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -14,7 +14,7 @@ const getKakaoToken = async (code: string): Promise<string> => {
       grant_type: "authorization_code",
       client_id: process.env.KAKAO_REST_API_KEY!,
       client_secret: process.env.KAKAO_CLIENT_SECRET!,
-      redirect_uri: process.env.KAKAO_REDIRECT_URI!,
+      redirect_uri: redirectUri,
       code,
     }),
   });
@@ -33,6 +33,9 @@ const getKakaoUser = async (accessToken: string): Promise<KakaoUserResponse> => 
 
 export const GET = async (req: NextRequest) => {
   const code = req.nextUrl.searchParams.get("code");
+  // 인가 요청 때 쓴 redirect_uri와 같아야 토큰 발급됨
+  const redirectUri =
+    req.nextUrl.searchParams.get("redirect_uri") ?? process.env.KAKAO_REDIRECT_URI!;
 
   if (!code) {
     return NextResponse.json(
@@ -42,7 +45,7 @@ export const GET = async (req: NextRequest) => {
   }
 
   try {
-    const accessToken = await getKakaoToken(code);
+    const accessToken = await getKakaoToken(code, redirectUri);
     const kakaoUser = await getKakaoUser(accessToken);
 
     const kakaoId = String(kakaoUser.id);
