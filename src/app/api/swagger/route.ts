@@ -152,14 +152,14 @@ const swaggerSpec = {
       get: {
         tags: ["Auth - Kakao"],
         summary: "카카오 인증 페이지로 리다이렉트",
-        description: "브라우저에서 직접 접속하세요. 카카오 로그인 페이지로 이동됩니다. 로그인 후 redirect_uri(생략 시 서버 기본값)로 code와 함께 돌아옵니다.",
+        description: "브라우저에서 직접 접속하세요. 카카오 로그인 페이지로 이동됩니다. 로그인 후 {호출한 프론트 origin}/auth/kakao/callback 으로 code와 함께 돌아옵니다. (예: localhost:3000에서 호출 → http://localhost:3000/auth/kakao/callback) 콜백 경로가 다르면 redirect_uri로 직접 지정하세요.",
         parameters: [
           {
             name: "redirect_uri",
             in: "query",
             required: false,
             schema: { type: "string" },
-            description: "카카오 로그인 후 돌아올 프론트 콜백 주소 (운영진에게 등록 요청 필요). 예: https://my-app.vercel.app/auth/kakao/callback",
+            description: "(선택) 콜백 주소 직접 지정. 생략 시 호출한 프론트 origin + /auth/kakao/callback. 카카오 콘솔에 등록된 주소여야 하므로 운영진에게 등록 요청 필요",
           },
         ],
         responses: {
@@ -185,7 +185,7 @@ const swaggerSpec = {
             in: "query",
             required: false,
             schema: { type: "string" },
-            description: "/api/auth/kakao 호출 때 redirect_uri를 넘겼다면 같은 값을 넘겨야 합니다",
+            description: "(선택) /api/auth/kakao 호출 때 redirect_uri를 직접 넘겼다면 같은 값을 넘겨야 합니다",
           },
         ],
         responses: {
