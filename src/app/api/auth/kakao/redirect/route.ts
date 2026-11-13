@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { signToken } from "@/lib/auth";
+import { resolveKakaoRedirectUri } from "@/lib/kakao";
 
 interface KakaoUserResponse {
   id: number;
@@ -34,8 +35,7 @@ const getKakaoUser = async (accessToken: string): Promise<KakaoUserResponse> => 
 export const GET = async (req: NextRequest) => {
   const code = req.nextUrl.searchParams.get("code");
   // 인가 요청 때 쓴 redirect_uri와 같아야 토큰 발급됨
-  const redirectUri =
-    req.nextUrl.searchParams.get("redirect_uri") ?? process.env.KAKAO_REDIRECT_URI!;
+  const redirectUri = resolveKakaoRedirectUri(req);
 
   if (!code) {
     return NextResponse.json(
